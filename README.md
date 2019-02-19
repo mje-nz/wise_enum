@@ -1,8 +1,14 @@
 # wise_enum
 [![Build Status](https://travis-ci.org/mje-nz/wise_enum.svg?branch=master)](https://travis-ci.org/mje-nz/wise_enum)
 
+This is a fork of [`wise_enum`](https://github.com/quicknir/wise_enum) which
+builds on some embedded platforms.  I've removed all the `optional`, so
+exceptions are no longer required.  The only platforms I've found on Platformio
+with good standard library support are Teensy (LC and 3.x) and STM32; everything
+else is missing `<array>` by default and I don't feel like figuring out which
+ones actually work with `-std=gnu++14`.
 
-> Because reflection makes you wise, not smart
+Original readme follows, slightly modified.
 
 `wise_enum` is a standalone smart enum library for C++11/14/17. It supports
 all of the standard functionality that you would expect from a smart enum class
@@ -63,12 +69,14 @@ Convert between strings and enums:
 // Convert any enum to a string
 std::cerr << wise_enum::to_string(Color::RED) << "\n";
 
-// Convert any string to an optional<enum>
-auto x1 = wise_enum::from_string<Color>("GREEN");
-auto x2 = wise_enum::from_string<Color>("Greeeeeeen");
+// Convert any string to an enum
+my_lib::Color x1, x2;
+bool success1 = wise_enum::from_string<my_lib::Color>("GREEN", x1);
+auto success2 = wise_enum::from_string<my_lib::Color>("Greeeeeeen", x2);
 
-assert(x1.value() == Color::GREEN);
-assert(!x2);
+assert(success1);
+assert(x1 == my_lib::Color::GREEN);
+assert(!success2);
 ```
 
 Check whether something is a wise enum at compile time:
@@ -156,12 +164,11 @@ discussed in the next section.
 
 ### Types and Customizations
 
-There are two types that you can customize in wise_enum, by defining macros: the
-optional type, and the string type.
+There is one type that you can customize in wise_enum, by defining macros: the
+string type.
 
 | Type          | 11/14 default       | 17 default       | customize macro       | type alias |
 | ------------- | ----------------- | ----------      | ---------------      | --- |
-| optional      | `wise_enum::optional` | `std::optional`    | `WISE_ENUM_OPTIONAL`    | `wise_enum::optional_type<T>` |
 | string        | `const char *`        | `std::string_view` | `WISE_ENUM_STRING_TYPE` | `wise_enum::string_type` |
 
 If you only support 17, the defaults should be fine. If you're on 11/14, the
