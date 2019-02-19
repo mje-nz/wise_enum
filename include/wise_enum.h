@@ -91,18 +91,18 @@ template <class T>
 static constexpr bool is_wise_enum_v = is_wise_enum<T>::value;
 #endif
 
-// Converts a string literal into a wise enum. Returns an optional<T>; if no
-// enumerator has name matching the string, the optional is returned empty.
+// Convert a string literal into a wise enum, returning success or failure.
 template <class T>
-WISE_ENUM_CONSTEXPR_14 optional_type<T> from_string(string_type s) {
+WISE_ENUM_CONSTEXPR_14 bool from_string(string_type s, T &out) {
   auto it =
       std::find_if(enumerators<T>::range.begin(), enumerators<T>::range.end(),
                    [=](const detail::value_and_name<T> &x) {
                      return ::wise_enum::detail::compare(x.name, s);
                    });
   if (it == enumerators<T>::range.end())
-    return {};
+    return false;
 
-  return it->value;
+  out = it->value;
+  return true;
 }
 } // namespace wise_enum

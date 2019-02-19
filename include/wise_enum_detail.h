@@ -4,45 +4,9 @@
 #include <type_traits>
 #include <utility>
 
-// optional type needed for interface
-#ifndef WISE_ENUM_OPTIONAL_TYPE
-#if __cplusplus == 201703L
-#include <optional>
-namespace wise_enum {
-template <class T>
-using optional_type = std::optional<T>;
-}
-#else
-#include "optional.h"
-namespace wise_enum {
-template <class T>
-using optional_type = wise_enum::optional<T>;
-}
-#endif
-#else
-namespace wise_enum {
-template <class T>
-using optional_type = WISE_ENUM_OPTIONAL_TYPE<T>;
-}
-#endif
-
-// Choice of string_view if type defined, otherwise use string literal
-#ifndef WISE_ENUM_STRING_TYPE
-#if __cplusplus == 201703L
-#include <string_view>
-namespace wise_enum {
-using string_type = std::string_view;
-}
-#else
 namespace wise_enum {
 using string_type = const char *;
 }
-#endif
-#else
-namespace wise_enum {
-using string_type = WISE_ENUM_STRING_TYPE;
-}
-#endif
 
 #if __cplusplus == 201103
 #define WISE_ENUM_CONSTEXPR_14
