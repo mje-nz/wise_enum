@@ -1,4 +1,6 @@
 # wise_enum
+[![Build Status](https://travis-ci.org/mje-nz/wise_enum.svg?branch=master)](https://travis-ci.org/mje-nz/wise_enum)
+
 
 > Because reflection makes you wise, not smart
 
