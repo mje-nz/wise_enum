@@ -1,0 +1,25 @@
+language: python
+
+cache:
+  directories:
+  - "~/.platformio"
+
+install:
+- pip install -U platformio
+- platformio --version
+
+env:
+  global:
+    - EXAMPLES_DIR=examples
+  matrix:
+    # The only boards that work are those with C++14 on by default.
+    # Others might work with -std=gnu++14.  I've only tested teensylc.
+    - BOARD=teensylc
+    - BOARD=teensy30
+    - BOARD=teensy31
+    - BOARD=teensy35
+    - BOARD=teensy36
+    - BOARD=disco_f407vg
+
+script:
+- platformio ci --board=$BOARD --lib=include examples/example.cpp
