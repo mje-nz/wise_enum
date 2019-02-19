@@ -1,4 +1,4 @@
-# wise_enum
+# wiseish_enum
 [![Build Status](https://travis-ci.org/mje-nz/wise_enum.svg?branch=master)](https://travis-ci.org/mje-nz/wise_enum)
 
 This is a fork of [`wise_enum`](https://github.com/quicknir/wise_enum) which
